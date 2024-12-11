@@ -1,13 +1,13 @@
 from time import perf_counter_ns as time
 import random
 
-def MergeSort(arr):
+def mergeSort(arr):
     lenarr = len(arr)
     if lenarr < 2: return arr
-    return MergeCombine(MergeSort(arr[0:lenarr//2]),
-                        MergeSort(arr[lenarr//2:lenarr]))
+    return mergeCombine(mergeSort(arr[0:lenarr//2]),
+                        mergeSort(arr[lenarr//2:lenarr]))
 
-def MergeCombine(list1, list2):
+def mergeCombine(list1, list2):
     len1 = len(list1)
     len2 = len(list2)
     out = []
@@ -27,7 +27,7 @@ def MergeCombine(list1, list2):
             index2 += 1
     return out
 
-def GenerateArray(length):
+def generateArray(length):
     out = []
     bound = int(1.5*pow(length, 1.05))
     return [random.randint(0, bound) for _ in range(length)]
@@ -52,8 +52,8 @@ def test_time(func, *args, **kwargs):
 
 def main():
     length = 10_000
-    arr = GenerateArray(length)
-    time = test_time(MergeSort, arr)
+    arr = generateArray(length)
+    time = test_time(mergeSort, arr)
     print(time)
 
 if __name__ == "__main__":
