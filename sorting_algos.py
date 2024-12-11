@@ -12,7 +12,7 @@ def mergeCombine(list1, list2):
     len2 = len(list2)
     out = []
     index1, index2 = 0, 0
-    for i in range(len1+len2):
+    for _ in range(len1+len2):
         if (index1 >= len1):
             out.append(list2[index2])
             index2 += 1
@@ -28,7 +28,6 @@ def mergeCombine(list1, list2):
     return out
 
 def generateArray(length):
-    out = []
     bound = int(1.5*pow(length, 1.05))
     return [random.randint(0, bound) for _ in range(length)]
 
@@ -41,7 +40,7 @@ def verifySort(arr):
     return True
 
 def test_time(func, *args, **kwargs):
-    iters = kwargs.pop('iters', 1000) # defaults to 100 iters if not given
+    iters = kwargs.pop('iters', 100) # defaults to 100 iters if not given
     timetaken = 0
     for i in range(iters):
         beg = time()
@@ -51,11 +50,10 @@ def test_time(func, *args, **kwargs):
     return (timetaken/iters) / 1e9
 
 def main():
-    length = 10_000
+    length = 1_000_000
     arr = generateArray(length)
-    time = test_time(mergeSort, arr)
+    time = test_time(mergeSort, arr, iters = 10)
     print(time)
 
 if __name__ == "__main__":
     main()
-    
