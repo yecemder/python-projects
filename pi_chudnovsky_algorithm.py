@@ -1,33 +1,43 @@
-from math import sqrt
-from numpy import prod
-from timeit import default_timer as time
+#Note: For extreme calculations, other code can be used to run on a GPU, which is much faster than this.
+import decimal
 
-def P(a, b):
-    out = 1
-    for j in range(a, b):
-        out *= -(6*j - 1)*(2*j - 1)*(6*j-5)
-    return out
 
-def Q(a, b):
-    result = 1
-    for j in range(a, b):
-        result *= 10939058850032000 * (j ** 3)
-    return result
-    #return prod((10939058850032000 * (j ** 3) for j in range(a,b))
+def binary_split(a, b):
+    if b == a + 1:
+        Pab = -(6*a - 5)*(2*a - 1)*(6*a - 1)
+        Qab = 10939058860032000 * a**3
+        Rab = Pab * (545140134*a + 13591409)
+    else:
+        m = (a + b) // 2
+        Pam, Qam, Ram = binary_split(a, m)
+        Pmb, Qmb, Rmb = binary_split(m, b)
+        
+        Pab = Pam * Pmb
+        Qab = Qam * Qmb
+        Rab = Qmb * Ram + Pam * Rmb
+    return Pab, Qab, Rab
 
-def S(a, b):
-    return sum((P(a, k+1)/Q(a, k+1)) * (545140134*k+13591409) for k in range(a, b))
 
-def R(a, b):
-    return Q(a, b) * S(a, b)
+def chudnovsky(n):
+    """Chudnovsky algorithm."""
+    P1n, Q1n, R1n = binary_split(1, n)
+    return (426880 * decimal.Decimal(10005).sqrt() * Q1n) / (13591409*Q1n + R1n)
 
-def compute(n):
-    return (426880*sqrt(10005) * Q(1, n))/(13591409*Q(1, n) + R(1, n))
+def bbp(n):
+    total = decimal.Decimal(0)
+    for k in range(n):
+        kd = decimal.Decimal(k)
+        total += (1/(16**kd) * (4/(8*kd+1) - 2/(8*kd+4) - 1/(8*kd+5) - 1/(8*kd+6)))
+    return total
 
-beg = time()
-for i in range(10):
-    comp = compute(10)
-end = time()
+print(f"1 = {chudnovsky(2)}")  # 3.141592653589793238462643384
 
-print(comp)
-print(f"{end-beg} seconds taken.")
+decimal.getcontext().prec = 10000 # number of digits of decimal precision
+for n in range(2,1000+1):
+    #print(f"{n} = {chudnovsky(n)}")  # 3.14159265358979323846264338...
+    pass
+
+##print(chudnovsky(10000))
+##print(chudnovsky(10001))
+
+print(bbp(100))
