@@ -4,7 +4,7 @@ from pygame.locals import *
 import sys
 import random
 import time
-from collections import defaultdict, deque
+from collections import defaultdict
 
 class Circle:
     def __init__(self, position, velocity, diameter, color):
@@ -15,7 +15,6 @@ class Circle:
         self.color = color
         self.accel = np.zeros(2, dtype=float)
         self.bounce_damping = 1  # Damping factor to simulate energy loss
-        self.trail = deque(maxlen=10)  # Trail with a maximum length of 10
 
     def update(self, delta_time):
         # Update velocity with acceleration
@@ -24,8 +23,6 @@ class Circle:
         self.position += self.velocity * delta_time
         # Reset acceleration
         self.accel.fill(0)
-        # Add current position to the trail
-        self.trail.append(self.position.copy())
 
     def apply_gravity(self, gravity):
         self.accel += gravity
@@ -162,10 +159,6 @@ while running:
 
     # Render the circles
     for circle in circles:
-        # Draw the trail
-        if len(circle.trail) > 1:
-            #pygame.draw.lines(screen, circle.color, False, [pos.astype(int) for pos in circle.trail], 2)
-            pass
         pygame.draw.circle(screen, circle.color, circle.position.astype(int), int(circle.radius))
     if preview:
         pygame.draw.circle(screen, preview.color, preview.position.astype(int), int(preview.radius))
