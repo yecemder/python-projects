@@ -124,7 +124,7 @@ def main():
 ##    falses = []
 ##    unknowns = [0, 8, 9, 31, 43, 61]
 
-    trues = [2, 3, 5, 7, 9, 12, 13, 14, 16, 18, 23, 24, 25, 28, 29, 30, 33, 37, 39, 40, 41, 43, 44, 45, 49, 52, 53, 56, 58, 59, 61]
+    trues = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
     falses = []
     unknowns = []
 
@@ -148,9 +148,11 @@ def main():
 ##    for implicant in prime_implicants:
 ##        print(implicant)
     print("\n".join(prime_implicants))
+    print(len(prime_implicants))
     print()
     print("Needed Implicants:")
     print("\n".join(needed_implicants))
+    print(len(needed_implicants))
     print()
     print(f"Simplified Boolean Formula:\n{boolean_formula}")
     print(f"Elapsed time: {end - beg:.7f} seconds")
