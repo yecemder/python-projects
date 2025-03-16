@@ -136,5 +136,3 @@ print(f"\nPredicting the tries of an array {iters} times using version 6 of leng
 ##startTime = timeit.default_timer()
 ##num2 = bogoBogoPredict2(arr)
 ##print(f"2nd version took {timeit.default_timer() - startTime} seconds.")
-
-
