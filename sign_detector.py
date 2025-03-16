@@ -1,5 +1,5 @@
 from math import inf, copysign
-from timeit import default_timer as time
+from time import perf_counter_ns as time
 
 def sigmoid_sign(x):
     return 2/(1 + inf**-x) - 1
@@ -14,34 +14,48 @@ def sign(x):
         return -1.0
     return 0.0
 
+def sign_ternary(x):
+    return 1 if x>0 else -1 if x<0 else 0
+
 def mathsign(x):
     return copysign(1, x)
     
 num = 13
 reps = 10000000
 
-startTime = time()
+st5 = time()
+for i in range(reps):
+    n = sign_ternary(num)
+nd5 = time()
+t5 = nd5-st5
+
+st1 = time()
 for i in range(reps):
     j = sign(num)
-endTime1 = time()-startTime
+nd1 = time()
+t1 = nd1 - st1
 
-startTime = time()
+st2 = time()
 for i in range(reps):
     k = sigmoid_sign(num)
-endTime2 = time()-startTime
+nd2 = time()
+t2 = nd2 - st2
 
-startTime = time()
+st3 = time()
 for i in range(reps):
     l = div_sign(num)
-endTime3 = time()-startTime
+nd3 = time()
+t3 = nd3 - st3
 
-startTime = time()
+st4 = time()
 for i in range(reps):
     m = mathsign(num)
-endTime4 = time()-startTime
+nd4 = time()
+t4 = nd4-st4
 
-print(f"piecewise sign took {endTime1} seconds")
-print(f"sigmoid sign took {endTime2} seconds")
-print(f"div sign took {endTime3} seconds")
-print(f"copysign took {endTime4} seconds")
+print(f"piecewise sign took {t1/1e9} seconds")
+print(f"sigmoid sign took {t2/1e9} seconds")
+print(f"div sign took {t3/1e9} seconds")
+print(f"copysign took {t4/1e9} seconds")
+print(f"ternary took {t5/1e9} seconds")
 
