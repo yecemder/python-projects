@@ -1,4 +1,4 @@
-from timeit import default_timer as time
+from time import perf_counter_ns as time
 
 def get_prime_implicants(minterms):
     primeImplicants = []
@@ -153,7 +153,7 @@ def main():
     print("\n".join(needed_implicants))
     print()
     print(f"Simplified Boolean Formula:\n{boolean_formula}")
-    print(f"Elapsed time: {end - beg:.7f} seconds")
+    print(f"Elapsed time: {(end - beg)/1e9:,} seconds")
 
 if __name__ == "__main__":
     main()
