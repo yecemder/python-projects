@@ -23,12 +23,6 @@ def mathsign(x):
 num = 13
 reps = 10000000
 
-st5 = time()
-for i in range(reps):
-    n = sign_ternary(num)
-nd5 = time()
-t5 = nd5-st5
-
 st1 = time()
 for i in range(reps):
     j = sign(num)
@@ -52,6 +46,12 @@ for i in range(reps):
     m = mathsign(num)
 nd4 = time()
 t4 = nd4-st4
+
+st5 = time()
+for i in range(reps):
+    n = sign_ternary(num)
+nd5 = time()
+t5 = nd5-st5
 
 print(f"piecewise sign took {t1/1e9} seconds")
 print(f"sigmoid sign took {t2/1e9} seconds")
